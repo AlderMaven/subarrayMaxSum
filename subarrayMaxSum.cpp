@@ -34,6 +34,7 @@ void subarrayMaxSum(){
 			
 			getline(cin, arrayInput); //this is used to clear out cin for array input
 			
+			//should have a check for over and under filling, could use a sentinel loop
 			cout << "please enter array data as space seperated integers" << endl;
 			getline(cin, arrayInput);
 			ss << arrayInput;
@@ -42,24 +43,25 @@ void subarrayMaxSum(){
 			int iterator = 0;
 			int currentMax = 0;
 
-			
+			//fill array from input
 			while(ss>>temp && iterator < sizeArray){
 				testArray[iterator] = temp;
 				iterator++;
 			}
 			
+			//initialize for dynamic, safe since 0 size is checked for exit command
 			sumArray[0] = testArray[0];
 			currentMax = sumArray[0];
 			
 			for(int i = 1; i<sizeArray; i++){ 
-				if(testArray[i] > testArray[i] + sumArray[i-1]){
+				if(testArray[i] > testArray[i] + sumArray[i-1]){ //Essentially, if previous sum is negative, then it should not be added
 					sumArray[i] = testArray[i];
 				}
 				else{
 					sumArray[i] = testArray[i] + sumArray[i-1];
 				}
 				if(sumArray[i]>currentMax){
-					currentMax=sumArray[i];
+					currentMax=sumArray[i]; //if a larger max is found, update
 				}
 				
 				
@@ -67,7 +69,7 @@ void subarrayMaxSum(){
 			
 			cout << "Max Sum found to be: " << currentMax << endl;
 			
-
+			//Stop mem leaks
 			delete testArray;
 			delete sumArray;
 		}
